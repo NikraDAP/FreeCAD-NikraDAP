@@ -1,2 +1,1 @@
-# NikraDAPRev2
-FreeCAD - Nikra-DAP Multibody Planar Dynamics Workbench
+# NikraDAP-Rev2.0-alpha - Nikra-DAP Multibody Planar Dynamics Workbench

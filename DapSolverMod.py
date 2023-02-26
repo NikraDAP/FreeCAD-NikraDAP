@@ -156,7 +156,6 @@ class CommandDapSolverC:
 class DapSolverC:
     if Debug:
         DT.Mess("DapSolverC-CLASS")
-
     #  -------------------------------------------------------------------------
     def __init__(self, solverObject):
         """Initialise on instantiation of a new solver object"""
@@ -168,7 +167,6 @@ class DapSolverC:
         self.initProperties(solverObject)
 
         solverObject.Proxy = self
-
     #  -------------------------------------------------------------------------
     def initProperties(self, solverObject):
         """Initialse all the properties of the solver object"""
@@ -176,6 +174,7 @@ class DapSolverC:
         if Debug:
             DT.Mess("DapSolverC-initProperties")
 
+        DT.addObjectProperty(solverObject, "FileName", "", "App::PropertyString", "", "FileName to save data under")
         DT.addObjectProperty(solverObject, "Directory", "", "App::PropertyString", "", "Directory to save data")
         DT.addObjectProperty(solverObject, "StartTime", 0.0, "App::PropertyFloat", "", "Start Time")
         DT.addObjectProperty(solverObject, "EndTime", 10.0, "App::PropertyFloat", "", "End Time")
@@ -191,20 +190,17 @@ class DapSolverC:
             DT.Mess("DapSolverC-onDocumentRestored")
 
         self.initProperties(solverObject)
-
     #  -------------------------------------------------------------------------
     def execute(self, solverObject):
 
         if Debug:
             DT.Mess("DapSolverC-execute")
-
     #  -------------------------------------------------------------------------
     def onChanged(self, solverObject, property):
         
         #if Debug:
         #    DT.Mess("DapSolverC-onChanged")
         return
-    
     #  -------------------------------------------------------------------------
     def __getstate__(self):
         if Debug:
@@ -336,17 +332,13 @@ class ViewProviderDapSolverC:
 # =============================================================================
 class TaskPanelDapSolverC:
     """Taskpanel for Executing DAP Solver User Interface"""
-
     if Debug:
         DT.Mess("TaskPanelDapSolverC-CLASS")
-
     #  -------------------------------------------------------------------------
     def __init__(self, solverTaskObject):
         """Run on first instantiation of a TaskPanelDapSolver class"""
-
         if Debug:
             DT.Mess("TaskPanelDapSolverC-__init__")
-
         self.solverTaskObject = solverTaskObject
         self.Document = CAD.ActiveDocument
 
@@ -361,13 +353,20 @@ class TaskPanelDapSolverC:
 
         # Set up actions on the solver button and fileDirectory browser
         self.form.solveButton.clicked.connect(self.solveButtonClicked)
-        self.form.pbBrowseFileDirectory.clicked.connect(self.getFolderDirectory)
+        self.form.browseFileDirectory.clicked.connect(self.getFolderDirectory)
 
         # Set the time in the form
         self.form.startTime.setValue(self.solverTaskObject.StartTime)
         self.form.endTime.setValue(self.solverTaskObject.EndTime)
         self.form.reportingTime.setValue(self.solverTaskObject.DeltaTime)
-        self.form.lnedFileDirectory.setText(self.Directory)
+        # Set the file name and directory
+        self.form.outputDirectory.setText(self.Directory)
+        self.form.outputFileName.setText(self.solverTaskObject.FileName)
+
+        # Grey out the output data input boxes
+        self.form.outputData.toggled.connect(self.outputDataCheckboxChanged)
+        self.form.outputData.setChecked(True)
+        self.form.outputData.setChecked(False)
 
         # Set the accuracy in the form
         self.Accuracy = 5
@@ -387,7 +386,6 @@ class TaskPanelDapSolverC:
         #  Recompute document to update viewprovider based on the shapes
         solverDocName = str(self.solverTaskObject.Document.Name)
         CAD.getDocument(solverDocName).recompute()
-
     #  -------------------------------------------------------------------------
     def getStandardButtons(self):
 
@@ -396,7 +394,6 @@ class TaskPanelDapSolverC:
 
         # Create only an 'OK' button for the solver taskDialog
         return int(QtGui.QDialogButtonBox.Ok)
-
     #  -------------------------------------------------------------------------
     def storeTimeValues(self):
         """Transfer the times selected in the dialog to our object"""
@@ -407,7 +404,6 @@ class TaskPanelDapSolverC:
         self.solverTaskObject.StartTime = self.form.startTime.value()
         self.solverTaskObject.EndTime = self.form.endTime.value()
         self.solverTaskObject.DeltaTime = self.form.reportingTime.value()
-
     #  -------------------------------------------------------------------------
     def checkValidityOfTime(self):
         """Reject an incorrect time setting"""
@@ -423,7 +419,20 @@ class TaskPanelDapSolverC:
             return False
 
         return True
-
+    #  -------------------------------------------------------------------------
+    def outputDataCheckboxChanged(self):
+        if self.form.outputData.isChecked():
+            self.form.outputFileLabel.setEnabled(True)
+            self.form.outputFileName.setEnabled(True)
+            self.form.outputDirectoryLabel.setEnabled(True)
+            self.form.outputDirectory.setEnabled(True)
+            self.Accuracy = 9
+            self.form.Accuracy.setValue(self.Accuracy)
+        else:
+            self.form.outputFileLabel.setDisabled(True)
+            self.form.outputFileName.setDisabled(True)
+            self.form.outputDirectoryLabel.setDisabled(True)
+            self.form.outputDirectory.setDisabled(True)
     #  -------------------------------------------------------------------------
     def solveButtonClicked(self):
         """Call the MainSolve() method in the DapMainC class"""
@@ -442,7 +451,12 @@ class TaskPanelDapSolverC:
         self.form.solveButton.repaint()
         self.form.solveButton.update()
 
-        self.solverTaskObject.Directory = self.form.lnedFileDirectory.text()
+        self.solverTaskObject.Directory = self.form.outputDirectory.text()
+        if self.form.outputData.isChecked():
+            self.solverTaskObject.FileName = self.form.outputFileName.text()
+        else:
+            self.solverTaskObject.FileName = "-"
+
         self.storeTimeValues()
         if self.checkValidityOfTime() is True:
 
@@ -457,7 +471,7 @@ class TaskPanelDapSolverC:
 
         # Return the solve button to green with 'Solve' on it
         self.form.solveButton.setText("Solve")
-        self.form.solveButton.setDisabled(False)
+        self.form.solveButton.setEnabled(True)
         # We end here after the solving has been completed
         # and will wait for the OK button to be clicked
     #  -------------------------------------------------------------------------
@@ -465,10 +479,8 @@ class TaskPanelDapSolverC:
         """Request the directory where the .csv result files will be written"""
         if Debug:
             DT.Mess("TaskPanelDapSolverC-getFolderDirectory")
-
         self.solverTaskObject.Directory = QtGui.QFileDialog.getExistingDirectory()
-        self.form.lnedFileDirectory.setText(self.solverTaskObject.Directory)
-
+        self.form.fileDirectory.setText(self.solverTaskObject.Directory)
     #  -------------------------------------------------------------------------
     def accuracyChanged(self):
         """Change the accuracy setting when slider has been adjusted"""

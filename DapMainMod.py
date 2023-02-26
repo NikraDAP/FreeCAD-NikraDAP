@@ -68,7 +68,6 @@ if CAD.GuiUp:
     import PySide
 global Debug
 Debug = False
-
 ############################################################################################
 # Never try to change an item in a list inside the body/joint/force/materials/solver object
 # NB NB NB Pull the list out, change the item in the list, and put the list back NB NB NB NB
@@ -256,6 +255,7 @@ class DapMainC:
             # Change the local vectors to be relative to the CoG, rather than the body origin
             # The CoG in world coordinates are the world coordinates of the body
             # All points are relative to this point
+
             # World
             CoG = xyzToXYRotation.toMatrix().multVec(bodyObj.centreOfGravity)
             npVec = self.vecToNumpyF(CoG)
@@ -279,7 +279,7 @@ class DapMainC:
             # Because the user will maybe use it manually later and will appreciate it
             self.phiNp[bodyIndex] = self.nicePhiPlease(vectorsRelativeCoG)
             if Debug:
-                DT.Mess("Best Phi: "+str(phi)+"["+str(phi*180/math.pi)+"]")
+                DT.Mess("Best Phi: "+str(phi)+"'"+str(phi*180/math.pi)+"]")
 
             # The phiDot axis vector is by definition perpendicular to the movement plane,
             # so we don't have to do any rotating from the value set in bodyObj
@@ -603,7 +603,7 @@ class DapMainC:
                              atol=self.absoluteTolerance)
 
         # Output the positions/angles results file
-        self.PosFILE = open(os.path.join(self.solverObj.Directory, "Pos.csv"), 'w')
+        self.PosFILE = open(os.path.join(self.solverObj.Directory, "DapAnimation.csv"), 'w')
         Sol = solution.y.T
         for tick in range(len(solution.t)):
             self.PosFILE.write(str(solution.t[tick])+" ")
@@ -626,16 +626,18 @@ class DapMainC:
         # Flag that the results are valid
         self.solverObj.DapResultsValid = True
 
-        self.outputResults(solution.t, solution.y.T)
+        if self.solverObj.FileName != "-":
+            self.outputResults(solution.t, solution.y.T)
     #####################################
     #   This is the end of the solution
     # The rest are all called subroutines
     #####################################
     #  -------------------------------------------------------------------------
     def Analysis(self, tick, uArray):
-        """ DAP_BC_12_2023/Formulation/analysis.m"""
+        """The Analysis function which takes a
+        uArray consisting of a world 3vector and a velocity 3vector"""
         if Debug:
-            DT.Mess("Analysis")
+            DT.Mess("Input to 'Analysis'")
             DT.Np1D(True, uArray)
 
         # Unpack uArray into world coordinate and world velocity sub-arrays
@@ -667,6 +669,7 @@ class DapMainC:
         if self.numConstraints == 0:
             for index in range(self.numMovBodiesx3):
                 accel.append = self.massInvArray[index] * self.forceArrayNp[index]
+        # We go through this if we have any constraints
         else:
             Jacobian = self.getJacobianF()
             if Debug:
@@ -691,7 +694,7 @@ class DapMainC:
             if Debug:
                 DT.Mess("rhsAccel")
                 DT.Np1D(True, rhsAccel)
-            # Combine Force Array and rhs of Acceleration Constraints into array
+            # Combine Force Array and rhs of Acceleration Constraints into one array
             rhs = np.zeros((numBodPlusConstr,), dtype=np.float64)
             rhs[0: self.numMovBodiesx3] = self.forceArrayNp
             rhs[self.numMovBodiesx3:] = rhsAccel
@@ -708,7 +711,7 @@ class DapMainC:
                 DT.MessNoLF("Accelerations: ")
                 DT.Np1D(True, accel)
                 DT.MessNoLF("Lambda: ")
-                DT.Np1D(True, Lambda)
+                DT.Np1D(True, self.Lambda)
 
         # Transfer the accelerations back into the worldDotDot/phiDotDot and uDot/uDotDot Arrays
         for bodyIndex in range(1, self.numBodies):
@@ -1308,45 +1311,83 @@ class DapMainC:
         #    velocity of all points, kinetic and potential energies,
         #             at every reporting time interval
         self.solverObj = CAD.ActiveDocument.findObjects(Name="^DapSolver$")[0]
-        DapResultsFILE = open(os.path.join(self.solverObj.Directory, "DapResults.csv"), 'w')
+        fileName = self.solverObj.Directory+"/"+self.solverObj.FileName+".csv"
+        DapResultsFILE = open(fileName, 'w')
         numTicks = len(timeValues)
 
+        # Create the vertical headings list
+        # To write each body name into the top row of the spreadsheet,
+        # would make some columns very big by default
+        # So body names and point names are also written vertically in
+        # The column before the body/point data is written
+        VerticalHeaders = []
         # Write the column headers
         # Time
-        DapResultsFILE.write("Time: ")
-        # Bodies Heading
-        for bodyIndex in range(1, self.numBodies):
-            DapResultsFILE.write("Body-"+str(bodyIndex)+"-X")
-            DapResultsFILE.write(" Y Phi(r) Phi(d) X. Y. Phi.(r) Phi.(d) X.. Y.. Phi..(r) Phi..(d) ")
-            # Points Heading
-            for index in range(self.numPointsInDict[bodyIndex]):
-                DapResultsFILE.write("Point-"+str(index)+"-X Y X. Y. ")
-        # Lambda Heading
-        if self.numConstraints > 0:
-            DapResultsFILE.write("Lambda")
-            for index in range(1, len(self.Lambda)):
-                DapResultsFILE.write(" - ")
-        # Kinetic Energy Heading
-        for bodyIndex in range(1, self.numBodies):
-            DapResultsFILE.write("Kinetic-"+str(bodyIndex) + " ")
-
-        # Potential Energy Heading
-        for forceIndex in range(self.numForces):
-            forceObj = self.forceObjList[forceIndex]
-            if forceObj.actuatorType == 0:
+        for twice in range(2):
+            ColumnCounter = 0
+            DapResultsFILE.write("Time: ")
+            # Bodies Heading
+            for bodyIndex in range(1, self.numBodies):
+                if twice==0:
+                    VerticalHeaders.append(self.bodyObjList[bodyIndex].Label)
+                    DapResultsFILE.write("Bod" + str(bodyIndex))
+                    DapResultsFILE.write(" x y phi(r) phi(d) dx/dt dy/dt dphi/dt(r) dphi/dt(d) d2x/dt2 d2y/dt2 d2phi/dt2(r) d2phi/dt2(d) ")
+                else:
+                    DapResultsFILE.write(VerticalHeaders[ColumnCounter] + " -"*12 + " ")
+                ColumnCounter += 1
+                # Points Heading
+                for index in range(self.numPointsInDict[bodyIndex]):
+                    if twice == 0:
+                        VerticalHeaders.append(self.bodyObjList[bodyIndex].pointLabels[index])
+                        DapResultsFILE.write("Pnt" + str(index) + " x y dx/dt dy/dt ")
+                    else:
+                        DapResultsFILE.write(VerticalHeaders[ColumnCounter] + " -"*4 + " ")
+                    ColumnCounter += 1
+            # Lambda Heading
+            if self.numConstraints > 0:
                 for bodyIndex in range(1, self.numBodies):
-                    DapResultsFILE.write("Potential-" + str(bodyIndex) + " ")
+                    if twice == 0:
+                        VerticalHeaders.append(self.bodyObjList[bodyIndex].Label)
+                        DapResultsFILE.write("Lam" + str(bodyIndex) + " x y ")
+                    else:
+                        DapResultsFILE.write(VerticalHeaders[ColumnCounter] + " - - ")
+                    ColumnCounter += 1
+            # Kinetic Energy Heading
+            for bodyIndex in range(1, self.numBodies):
+                if twice==0:
+                    VerticalHeaders.append(self.bodyObjList[bodyIndex].Label)
+                    DapResultsFILE.write("Kin" + str(bodyIndex) + " - ")
+                else:
+                    DapResultsFILE.write(VerticalHeaders[ColumnCounter] + " - ")
+                ColumnCounter += 1
 
-        # Energy Totals Heading
-        DapResultsFILE.write("TotKin TotPot Total\n")
+            # Potential Energy Heading
+            for forceIndex in range(self.numForces):
+                forceObj = self.forceObjList[forceIndex]
+                if forceObj.actuatorType == 0:
+                    for bodyIndex in range(1, self.numBodies):
+                        if twice == 0:
+                            VerticalHeaders.append(self.bodyObjList[bodyIndex].Label)
+                            DapResultsFILE.write("Pot" + str(bodyIndex) + " - ")
+                        else:
+                            DapResultsFILE.write(VerticalHeaders[ColumnCounter] + " - ")
+                        ColumnCounter += 1
+
+            # Energy Totals Heading
+            if twice == 0:
+                DapResultsFILE.write("TotKin TotPot Total\n")
+            else:
+                DapResultsFILE.write("\n")
 
         # Do the calculations for each point in time
         # Plus an extra one at time=0 (with no printing)
         FirstTimeAround = True
+        VerticalCounter = 0
         TickRange = [0]
         TickRange += range(numTicks)
         for timeIndex in TickRange:
             tick = timeValues[timeIndex]
+            ColumnCounter = 0
 
             # Do the analysis on the stored uResults
             self.Analysis(tick, uResults[timeIndex])
@@ -1358,20 +1399,30 @@ class DapMainC:
             # Write All the Bodies position, positionDot, positionDotDot
             for bodyIndex in range(1, self.numBodies):
                 if not FirstTimeAround:
+                    # Body Name vertically
+                    if VerticalCounter < len(VerticalHeaders[ColumnCounter]):
+                        character = VerticalHeaders[ColumnCounter][VerticalCounter]
+                        if character in "0123456789":
+                            DapResultsFILE.write("'" + character + "' ")
+                        else:
+                            DapResultsFILE.write(character + " ")
+                    else:
+                        DapResultsFILE.write("- ")
+                    ColumnCounter += 1
                     # X Y
-                    DapResultsFILE.write(str(self.worldNp[bodyIndex]) + " ")
+                    DapResultsFILE.write(str(self.worldNp[bodyIndex]*1e-3) + " ")
                     # Phi (rad)
                     DapResultsFILE.write(str(self.phiNp[bodyIndex]) + " ")
                     # Phi (deg)
                     DapResultsFILE.write(str(self.phiNp[bodyIndex] * 180.0 / math.pi) + " ")
                     # Xdot Ydot
-                    DapResultsFILE.write(str(self.worldDotNp[bodyIndex]) + " ")
+                    DapResultsFILE.write(str(self.worldDotNp[bodyIndex]*1e-3) + " ")
                     # PhiDot (rad)
                     DapResultsFILE.write(str(self.phiDotNp[bodyIndex]) + " ")
                     # PhiDot (deg)
                     DapResultsFILE.write(str(self.phiDotNp[bodyIndex] * 180.0 / math.pi) + " ")
                     # Xdotdot Ydotdot
-                    DapResultsFILE.write(str(self.worldDotDotNp[bodyIndex]) + " ")
+                    DapResultsFILE.write(str(self.worldDotDotNp[bodyIndex]*1e-3) + " ")
                     # PhiDotDot (rad)
                     DapResultsFILE.write(str(self.phiDotDotNp[bodyIndex]) + " ")
                     # PhiDotDot (deg)
@@ -1380,17 +1431,37 @@ class DapMainC:
                 # Write all the points position and positionDot in the body
                 for index in range(self.numPointsInDict[bodyIndex]):
                     if not FirstTimeAround:
+                        # Point Name vertically
+                        if VerticalCounter < len(VerticalHeaders[ColumnCounter]):
+                            character = VerticalHeaders[ColumnCounter][VerticalCounter]
+                            if character in "0123456789":
+                                DapResultsFILE.write("'" + character + "' ")
+                            else:
+                                DapResultsFILE.write(character + " ")
+                        else:
+                            DapResultsFILE.write("- ")
+                        ColumnCounter += 1
                         # Point X Y
-                        DapResultsFILE.write(str(self.pointWorldNp[bodyIndex, index]) + " ")
+                        DapResultsFILE.write(str(self.pointWorldNp[bodyIndex, index]*1e-3) + " ")
                         # Point Xdot Ydot
-                        DapResultsFILE.write(str(self.pointWorldDotNp[bodyIndex, index]) + " ")
+                        DapResultsFILE.write(str(self.pointWorldDotNp[bodyIndex, index]*1e-3) + " ")
 
             # Write the Lambdas
             if self.numConstraints > 0:
                 if not FirstTimeAround:
                     # Lambda
-                    for lam in range(len(self.Lambda)):
-                        DapResultsFILE.write(str(self.Lambda[lam]) + " ")
+                    for bodyIndex in range(self.numMovBodies):
+                        # Body Name vertically
+                        if VerticalCounter < len(VerticalHeaders[ColumnCounter]):
+                            character = VerticalHeaders[ColumnCounter][VerticalCounter]
+                            if character in "0123456789":
+                                DapResultsFILE.write("'" + character + "' ")
+                            else:
+                                DapResultsFILE.write(character + " ")
+                        else:
+                            DapResultsFILE.write("- ")
+                        ColumnCounter += 1
+                        DapResultsFILE.write(str(self.Lambda[bodyIndex*2] * 1e-3) + " " + str(self.Lambda[bodyIndex*2 + 1] * 1e-3) + " ")
 
             # Compute kinetic and potential energies in Joules
             totKinEnergy = 0
@@ -1405,6 +1476,16 @@ class DapMainC:
 
                 # Kinetic Energy (m^2 = mm^2 * 1e-6)
                 if not FirstTimeAround:
+                    # Body Name vertically
+                    if VerticalCounter < len(VerticalHeaders[ColumnCounter]):
+                        character = VerticalHeaders[ColumnCounter][VerticalCounter]
+                        if character in "0123456789":
+                            DapResultsFILE.write("'" + character + "' ")
+                        else:
+                            DapResultsFILE.write(character + " ")
+                    else:
+                        DapResultsFILE.write("- ")
+                    ColumnCounter += 1
                     DapResultsFILE.write(str(kinEnergy) + " ")
                 totKinEnergy += kinEnergy
 
@@ -1420,45 +1501,53 @@ class DapMainC:
                         if FirstTimeAround:
                             self.potEnergyZeroPointNp[bodyIndex] = potEnergy
                         else:
+                            # Body Name vertically
+                            if VerticalCounter < len(VerticalHeaders[ColumnCounter]):
+                                character = VerticalHeaders[ColumnCounter][VerticalCounter]
+                                if character in "0123456789":
+                                    DapResultsFILE.write("'" + character + "' ")
+                                else:
+                                    DapResultsFILE.write(character + " ")
+                            else:
+                                DapResultsFILE.write("- ")
+                            ColumnCounter += 1
                             DapResultsFILE.write(str(potEnergy) + " ")
-                # elif forceObj.actuatorType == "Point-to-point":
-                #    LinearSpringDamperActuator(forceObj)
-                #    potEnergy += 0.5 * forceObj.k * delta**2
-                # elif forceObj.actuatorType == "Rotational Spring Damper Actuator":
-                #    RotationalSpringDamperActuator(forceObj)
-                # elif forceObj.actuatorType == "Constant Local Force":
-                #    bodyHEAD = forceObj.bodyHEADindex
-                #    self.sumForcesNp[bodyHEAD] += self.RotMatPhiNp[bodyHEAD].multVec(forceObj.localForce)
-                #    self.sumForcesNp[bodyHEAD] += self.RotMatPhiNp[bodyHEAD] * self.forceUnitLocalNp[bodyHEAD]
-                # elif forceObj.actuatorType == "Constant Force":
-                #    bodyHEAD = forceObj.bodyHEADindex
-                #    self.sumForcesNp[bodyHEAD] += forceObj.constForce
-                # elif forceObj.actuatorType == "Constant Torque":
-                #    bodyHEAD = forceObj.bodyHEADindex
-                #    self.sumMomentsNp[bodyHEAD] += forceObj.constTorque
-                # elif forceObj.actuatorType == "Contact Friction":
-                #    futureImplementation(forceObj)
-                # elif forceObj.actuatorType == "Unilateral Spring Damper(Y)":
-                #    futureImplementation(forceObj)
-                # elif forceObj.actuatorType == "Unilateral Spring Damper(Z)":
-                #    futureImplementation(forceObj)
-                # elif forceObj.actuatorType == "Motor":
-                #    futureImplementation(forceObj)
-                # elif forceObj.actuatorType == "Motor-Air Friction":
-                #    futureImplementation(forceObj)
-                # if not FirstTimeAround:
-                #    DapResultsFILE.write(str(potEnergy) + " ")
+                elif forceObj.actuatorType == "Point-to-point":
+                    LinearSpringDamperActuator(forceObj)
+                    potEnergy += 0.5 * forceObj.k * delta**2
+                elif forceObj.actuatorType == "Rotational Spring Damper Actuator":
+                    RotationalSpringDamperActuator(forceObj)
+                elif forceObj.actuatorType == "Constant Local Force":
+                    bodyHEAD = forceObj.bodyHEADindex
+                    self.sumForcesNp[bodyHEAD] += self.RotMatPhiNp[bodyHEAD].multVec(forceObj.localForce)
+                    self.sumForcesNp[bodyHEAD] += self.RotMatPhiNp[bodyHEAD] * self.forceUnitLocalNp[bodyHEAD]
+                elif forceObj.actuatorType == "Constant Force":
+                    bodyHEAD = forceObj.bodyHEADindex
+                    self.sumForcesNp[bodyHEAD] += forceObj.constForce
+                elif forceObj.actuatorType == "Constant Torque":
+                    bodyHEAD = forceObj.bodyHEADindex
+                    self.sumMomentsNp[bodyHEAD] += forceObj.constTorque
+                elif forceObj.actuatorType == "Contact Friction":
+                    futureImplementation(forceObj)
+                elif forceObj.actuatorType == "Unilateral Spring Damper(Y)":
+                    futureImplementation(forceObj)
+                elif forceObj.actuatorType == "Unilateral Spring Damper(Z)":
+                    futureImplementation(forceObj)
+                elif forceObj.actuatorType == "Motor":
+                    futureImplementation(forceObj)
+                elif forceObj.actuatorType == "Motor-Air Friction":
+                    futureImplementation(forceObj)
 
-            if not FirstTimeAround:
+            if FirstTimeAround:
+                FirstTimeAround = False
+                VerticalCounter = 0
+            else:
                 DapResultsFILE.write(str(totKinEnergy) + " ")
                 DapResultsFILE.write(str(totPotEnergy) + " ")
                 DapResultsFILE.write(str(totKinEnergy + totPotEnergy) + " ")
                 DapResultsFILE.write("\n")
+                VerticalCounter += 1
 
-            if FirstTimeAround:
-                # Remember the zero of Total energy so it can be subtracted from all potential energy
-                PotentialZeroPoint = totPotEnergy
-                FirstTimeAround = False
         # Next timeIndex
 
         DapResultsFILE.close()

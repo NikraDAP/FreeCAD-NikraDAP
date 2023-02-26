@@ -236,7 +236,7 @@ class TaskPanelDapAnimateC:
             self.animationBodyObj.append(self.animationDocument.findObjects(Name="^Ani_"+animationBodyName+"$")[0])
 
         # Load the calculated values of positions/angles from the results file
-        self.Positions = np.loadtxt(path.join(self.solverObj.Directory, "Pos.csv"))
+        self.Positions = np.loadtxt(path.join(self.solverObj.Directory, "DapAnimation.csv"))
         self.nTimeSteps = len(self.Positions.T[0])
 
         # Positions matrix is:

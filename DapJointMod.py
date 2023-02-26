@@ -308,7 +308,7 @@ class TaskPanelDapJointC:
         self.bodyObjects = []
         for bodyName in self.bodyObjDict:
             bodyObj = self.bodyObjDict[bodyName]
-            bodyLabels.append(bodyObj.Label+"{"+bodyObj.Name+"}")
+            bodyLabels.append(bodyObj.Label)
             self.bodyObjects.append(bodyObj)
         self.form.bodyHeadLabel.clear()
         self.form.bodyHeadLabel.addItems(bodyLabels)
@@ -404,12 +404,12 @@ class TaskPanelDapJointC:
 
         # Set up the callback functions for when anything changes
         self.form.jointType.currentIndexChanged.connect(self.jointChanged_CallbackF)
-        self.form.radioButtonA.toggled.connect(self.DriveFuncChangedF)
-        self.form.radioButtonB.toggled.connect(self.DriveFuncChangedF)
-        self.form.radioButtonC.toggled.connect(self.DriveFuncChangedF)
-        self.form.radioButtonD.toggled.connect(self.DriveFuncChangedF)
-        self.form.radioButtonE.toggled.connect(self.DriveFuncChangedF)
-        self.form.radioButtonF.toggled.connect(self.DriveFuncChangedF)
+        self.form.radioButtonA.toggled.connect(self.DriveFuncChanged_CallbackF)
+        self.form.radioButtonB.toggled.connect(self.DriveFuncChanged_CallbackF)
+        self.form.radioButtonC.toggled.connect(self.DriveFuncChanged_CallbackF)
+        self.form.radioButtonD.toggled.connect(self.DriveFuncChanged_CallbackF)
+        self.form.radioButtonE.toggled.connect(self.DriveFuncChanged_CallbackF)
+        self.form.radioButtonF.toggled.connect(self.DriveFuncChanged_CallbackF)
         self.form.bodyHeadLabel.currentIndexChanged.connect(self.bodyHEADChanged_CallbackF)
         self.form.bodyTailLabel.currentIndexChanged.connect(self.bodyTAILChanged_CallbackF)
         self.form.pointHeadLabel.currentIndexChanged.connect(self.pointHEADChanged_CallbackF)
@@ -535,9 +535,9 @@ class TaskPanelDapJointC:
         self.jointTaskObject.recompute()
         CADGui.getDocument(self.jointTaskObject.Document).resetEdit()
     #  -------------------------------------------------------------------------
-    def DriveFuncChangedF(self):
+    def DriveFuncChanged_CallbackF(self):
         if Debug:
-            DT.Mess("TaskPanelDapJointC-DriveFuncChangedF")
+            DT.Mess("TaskPanelDapJointC-DriveFuncChanged_CallbackF")
 
         # Change the function type in the jointTaskObject
         # and show/grey out the function description
@@ -580,32 +580,32 @@ class TaskPanelDapJointC:
         # And whether the driven function stuff is available
         if formJointType == DT.JOINT_TYPE_DICTIONARY["Rotation"]:
             self.form.definitionWidget.setCurrentIndex(0)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Translation"]:
             self.form.definitionWidget.setCurrentIndex(0)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Rotation-Rotation"]:
             self.form.definitionWidget.setCurrentIndex(0)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Rotation-Translation"]:
             self.form.definitionWidget.setCurrentIndex(0)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Driven-Rotation"]:
             self.form.definitionWidget.setCurrentIndex(1)
-            self.showAllEquations()
+            self.showAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Driven-Translation"]:
             self.form.definitionWidget.setCurrentIndex(1)
-            self.showAllEquations()
+            self.showAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Disc"]:
             self.form.definitionWidget.setCurrentIndex(1)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         elif formJointType == DT.JOINT_TYPE_DICTIONARY["Rigid"]:
             self.form.definitionWidget.setCurrentIndex(0)
-            self.greyAllEquations()
+            self.greyAllEquationsF()
         else:
             CAD.Console.PrintError("Unknown joint type - this should never occur\n")
     #  -------------------------------------------------------------------------
-    def greyAllEquations(self):
+    def greyAllEquationsF(self):
         self.form.funcCoeff.setDisabled(True)
         self.form.funcType.setDisabled(True)
         self.form.funcAequationGrey.setVisible(True)
@@ -621,7 +621,7 @@ class TaskPanelDapJointC:
         self.form.funcFequationGrey.setVisible(True)
         self.form.funcFequation.setHidden(True)
     #  -------------------------------------------------------------------------
-    def showAllEquations(self):
+    def showAllEquationsF(self):
         self.form.funcCoeff.setEnabled(True)
         self.form.funcType.setEnabled(True)
         self.form.funcAequationGrey.setHidden(True)

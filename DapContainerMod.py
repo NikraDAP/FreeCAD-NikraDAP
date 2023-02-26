@@ -168,7 +168,6 @@ class DapContainerC:
         DT.addObjectProperty(containerObject, "gravityVector", CAD.Vector(0.0, 0.0, 0.0), "App::PropertyVector", "", "Gravitational acceleration Components")
 
         DT.setActiveContainer(containerObject)
-
     #  -------------------------------------------------------------------------
     def onDocumentRestored(self, containerObject):
         """Re-initialise when document is restored on load Model etc"""

@@ -66,13 +66,13 @@ Debug = False
 #  -------------------------------------------------------------------------
 # These are the string constants used in various places throughout the code
 JOINT_TYPE = ["Rotation",
-              "Translation",
-              "Rotation-Rotation",
-              "Rotation-Translation",
-              "Driven-Rotation",
-              "Driven-Translation",
-              "Disc",
-              "Rigid",
+              #"Translation",
+              #"Rotation-Rotation",
+              #"Rotation-Translation",
+              #"Driven-Rotation",
+              #"Driven-Translation",
+              #"Disc",
+              #"Rigid",
               ]
 JOINT_TYPE_DICTIONARY = {"Rotation": 0,
                          "Translation": 1,
@@ -84,17 +84,18 @@ JOINT_TYPE_DICTIONARY = {"Rotation": 0,
                          "Rigid": 7,
                          }
 FORCE_TYPE = ["Gravity",
-              "Spring",
-              "Rotational Spring",
-              "Linear Spring Damper",
-              "Rotational Spring Damper",
-              "Unilateral Spring Damper",
-              "Constant Force Local to Body",
-              "Constant Global Force",
-              "Constant Torque about a Point",
-              "Contact Friction",
-              "Motor",
-              "Motor with Air Friction"]
+              # "Spring",
+              # "Rotational Spring",
+              # "Linear Spring Damper",
+              # "Rotational Spring Damper",
+              # "Unilateral Spring Damper",
+              # "Constant Force Local to Body",
+              # "Constant Global Force",
+              # "Constant Torque about a Point",
+              # "Contact Friction",
+              # "Motor",
+              #"Motor with Air Friction"
+              ]
 FORCE_TYPE_HELPER_TEXT = [
     "Universal force of attraction between all matter",
     "Linear Spring connecting two points with stiffness and undeformed length",
@@ -263,7 +264,7 @@ def addObjectProperty(newobject, newproperty, initVal, newtype, *args):
 #  -------------------------------------------------------------------------
 def getDictionary(DAPName):
     """Run through the Active Container group and
-    return a dictionary with DAPName, vs objects"""
+    return a dictionary with 'DAPName', vs objects"""
     if Debug:
         Mess("DapToolsC-getDictionary")
     DAPDictionary = {}
@@ -703,61 +704,71 @@ def DrawTransArrow(Point1, Point2, diameter):
         return Part.makeCompound([cylinder, cone1, cone2])
     return Part.Shape()
 #  -------------------------------------------------------------------------
-def minMidMax3(x, y, z, minMidMax):
-    X = abs(x)
-    Y = abs(y)
-    Z = abs(z)
-    if X >= Y:
-        if Y >= Z:
-            # X >= Y >= Z
+def minMidMax(x, y, z, minMidMax):
+    """Given three numbers, return the minimum, or the middle or the maximum one
+        minimum: if minMidMax == 1
+        middle:  if minMidMax == 2
+        maximum: if minMidMax == 3
+    """
+    x = abs(x)
+    y = abs(y)
+    z = abs(z)
+    if x >= y:
+        if y >= z:
+            # x >= y >= z
             if minMidMax == 1:
-                return Z
+                return z
             elif minMidMax == 2:
-                return Y
+                return y
             else:
-                return X
-        if X >= Z:
-            # X >= Z > Y
+                return x
+        elif x >= z:
+            # x >= z > y
             if minMidMax == 1:
-                return Y
+                return y
             elif minMidMax == 2:
-                return Z
+                return z
             else:
-                return X
-        # Z > X >= Y
-        if minMidMax == 1:
-            return Y
+                return x
+        # z > x >= y
+        elif minMidMax == 1:
+            return y
         elif minMidMax == 2:
-            return X
+            return x
         else:
-            return Z
+            return z
     # y > x
-    if X >= Z:
-        # Y >= X >= Z
+    elif x >= z:
+        # y >= x >= z
         if minMidMax == 1:
-            return Z
+            return z
         elif minMidMax == 2:
-            return X
+            return x
         else:
-            return Y
+            return y
     # y > x and z > x
-    if Y >= Z:
-        # Y >= Z > X
+    elif y >= z:
+        # y >= z > x
         if minMidMax == 1:
-            return X
+            return x
         elif minMidMax == 2:
-            return Z
+            return z
         else:
-            return Y
-    # Z > Y > X
-    if minMidMax == 1:
-        return X
+            return y
+    # z > y > x
+    elif minMidMax == 1:
+        return x
     elif minMidMax == 2:
-        return Y
+        return y
     else:
-        return Z
+        return z
 #  -------------------------------------------------------------------------
 def minMidMaxVec(Vector, minMidMax):
+    """Given coordinates in a vector, return the minimum, or the middle or the maximum one
+        minimum: if minMidMax == 1
+        middle:  if minMidMax == 2
+        maximum: if minMidMax == 3
+    """
     Vec = CAD.Vector(Vector)
     Vec.x = abs(x)
     Vec.y = abs(y)

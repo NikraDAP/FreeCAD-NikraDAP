@@ -444,27 +444,33 @@ class TaskPanelDapMaterialC:
         if currentColumn == 2:
             densityStr = self.form.tableWidget.item(currentRow, 2).text()
             if len(densityStr) > 0:
-                # The next few rows are fancy python
-                # Don't change them at all, unless you know what they mean
-                # Filter out any non-numerics
-                density = ''.join(x for x in densityStr if x.isdigit() or x in ['.', '-', ','])
-                # Replace any comma with a full-stop [period]
-                densityNoComma = ''.join(x if x.isdigit() or x in ['.', '-'] else '.' for x in density)
-                # Update the entry with the new custom value
-                self.modelMaterialsNamesList[currentRow] = 'Custom'
-                if self.materialTaskObject.kgm3ORgcm3 is True:
-                    self.modelMaterialsDensitiesList[currentRow] = float(str(densityNoComma))
+                if 'e' in densityStr:
+                    densityNoComma = densityStr
                 else:
-                    self.modelMaterialsDensitiesList[currentRow] = float(str(densityNoComma)) * 1000.0
+                    # The next few rows are fancy python
+                    # Don't change them at all, unless you know what they mean
+                    # Filter out any non-numerics
+                    density = ''.join(x for x in densityStr if x.isdigit() or x in ['.', '-', ','])
+                    # Replace any comma with a full-stop [period]
+                    densityNoComma = ''.join(x if x.isdigit() or x in ['.', '-'] else '.' for x in density)
+            else:
+                densityNoComma = "1e-9"
 
-                # Update the density to being a Custom one in the table
-                # (the last density option in the list)
-                combo = self.form.tableWidget.cellWidget(currentRow, 1)
-                combo.setCurrentIndex(len(self.densityDict) - 1)
-                self.form.tableWidget.setCellWidget(currentRow, 1, combo)
-                # Write the new density value which was entered, back into column 2 of current Row
-                # It was entered with the current units, so it should stay the same size as was entered
-                self.form.tableWidget.item(currentRow, 2).setText(str(densityNoComma))
+            # Update the entry with the new custom value
+            self.modelMaterialsNamesList[currentRow] = 'Custom'
+            if self.materialTaskObject.kgm3ORgcm3 is True:
+                self.modelMaterialsDensitiesList[currentRow] = float(str(densityNoComma))
+            else:
+                self.modelMaterialsDensitiesList[currentRow] = float(str(densityNoComma)) * 1000.0
+
+            # Update the density to being a Custom one in the table
+            # (the last density option in the list)
+            combo = self.form.tableWidget.cellWidget(currentRow, 1)
+            combo.setCurrentIndex(len(self.densityDict) - 1)
+            self.form.tableWidget.setCellWidget(currentRow, 1, combo)
+            # Write the new density value which was entered, back into column 2 of current Row
+            # It was entered with the current units, so it should stay the same size as was entered
+            self.form.tableWidget.item(currentRow, 2).setText(str(densityNoComma))
     #  -------------------------------------------------------------------------
     def materialComboChanged_CallbackF(self):
         """We have changed the type of material for this body"""

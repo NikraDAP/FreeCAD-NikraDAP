@@ -6,43 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>233</width>
-    <height>320</height>
+    <width>225</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>233</width>
-    <height>320</height>
+    <width>225</width>
+    <height>380</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>233</width>
-    <height>320</height>
+    <width>225</width>
+    <height>380</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>System Solution</string>
   </property>
-  <widget class="QLabel" name="lblFileDirectory">
+  <widget class="QLabel" name="outputDirectoryLabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>17</y>
+     <x>6</x>
+     <y>325</y>
      <width>131</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>Results Directory:</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Results Directory:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lnedFileDirectory">
+  <widget class="QLineEdit" name="outputDirectory">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>46</y>
+     <x>6</x>
+     <y>345</y>
      <width>211</width>
      <height>32</height>
     </rect>
@@ -51,11 +51,11 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pbBrowseFileDirectory">
+  <widget class="QPushButton" name="browseFileDirectory">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>10</y>
+     <x>134</x>
+     <y>310</y>
      <width>84</width>
      <height>34</height>
     </rect>
@@ -73,8 +73,8 @@
   <widget class="QFrame" name="timeFrame">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>80</y>
+     <x>6</x>
+     <y>10</y>
      <width>211</width>
      <height>148</height>
     </rect>
@@ -96,7 +96,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
-       <string>Reporting time</string>
+       <string>Time Step:</string>
       </property>
      </widget>
     </item>
@@ -149,7 +149,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Time Step Information</string>
+       <string>Calculation Time:  (s)</string>
       </property>
      </widget>
     </item>
@@ -161,8 +161,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>280</y>
+     <x>7</x>
+     <y>200</y>
      <width>84</width>
      <height>34</height>
     </rect>
@@ -220,27 +220,11 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="lblPlaneDefined">
-   <property name="geometry">
-    <rect>
-     <x>6</x>
-     <y>302</y>
-     <width>16</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QSlider" name="Accuracy">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>250</y>
+     <x>6</x>
+     <y>173</y>
      <width>211</width>
      <height>20</height>
     </rect>
@@ -264,21 +248,21 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>84</x>
-     <y>230</y>
-     <width>58</width>
-     <height>18</height>
+     <x>70</x>
+     <y>158</y>
+     <width>91</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string> Accuracy</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; Accuracy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="correctInitial">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>282</y>
+     <x>106</x>
+     <y>200</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -290,14 +274,66 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>275</y>
+     <x>124</x>
+     <y>196</y>
      <width>91</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Correct Initial&lt;br/&gt;Conditions&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Correct Initial&lt;br/&gt;Conditions&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="outputFileName">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>278</y>
+     <width>211</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="outputFileLabel">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>260</y>
+     <width>91</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;File Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="outputData">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>240</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="outputDataLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>240</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Output Full Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

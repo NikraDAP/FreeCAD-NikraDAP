@@ -25,7 +25,7 @@
 # *                   Cecil Churms <churms@gmail.com>                            *
 # *             Lukas du Plessis (UP) <lukas.duplessis@up.ac.za>                 *
 # *                                                                              *
-# *                 This file a sizeable expansion of the:                       *
+# *               This file is a sizeable expansion of the:                      *
 # *                "Nikra-DAP-Rev-1" workbench for FreeCAD                       *
 # *        with increased functionality and inherent code documentation          *
 # *                  by means of expanded variable naming                        *
@@ -56,8 +56,6 @@
 # *                                                                              *
 # ********************************************************************************
 import FreeCAD as CAD
-import FreeCADGui as CADGui
-
 import Part
 from os import path
 import math
@@ -65,6 +63,7 @@ import numpy as np
 Debug = False
 #  -------------------------------------------------------------------------
 # These are the string constants used in various places throughout the code
+# These options are limited until each has been more thoroughly tested
 JOINT_TYPE = ["Rotation",
               #"Translation",
               #"Rotation-Rotation",
@@ -83,17 +82,18 @@ JOINT_TYPE_DICTIONARY = {"Rotation": 0,
                          "Disc": 6,
                          "Rigid": 7,
                          }
+# These options are limited until each has been more thoroughly tested
 FORCE_TYPE = ["Gravity",
-              # "Spring",
-              # "Rotational Spring",
-              # "Linear Spring Damper",
-              # "Rotational Spring Damper",
-              # "Unilateral Spring Damper",
-              # "Constant Force Local to Body",
-              # "Constant Global Force",
-              # "Constant Torque about a Point",
-              # "Contact Friction",
-              # "Motor",
+              #"Spring",
+              #"Rotational Spring",
+              #"Linear Spring Damper",
+              #"Rotational Spring Damper",
+              #"Unilateral Spring Damper",
+              #"Constant Force Local to Body",
+              #"Constant Global Force",
+              #"Constant Torque about a Point",
+              #"Contact Friction",
+              #"Motor",
               #"Motor with Air Friction"
               ]
 FORCE_TYPE_HELPER_TEXT = [
@@ -704,7 +704,7 @@ def DrawTransArrow(Point1, Point2, diameter):
         return Part.makeCompound([cylinder, cone1, cone2])
     return Part.Shape()
 #  -------------------------------------------------------------------------
-def minMidMax(x, y, z, minMidMax):
+def minMidMax3(x, y, z, minMidMax):
     """Given three numbers, return the minimum, or the middle or the maximum one
         minimum: if minMidMax == 1
         middle:  if minMidMax == 2
@@ -770,9 +770,9 @@ def minMidMaxVec(Vector, minMidMax):
         maximum: if minMidMax == 3
     """
     Vec = CAD.Vector(Vector)
-    Vec.x = abs(x)
-    Vec.y = abs(y)
-    Vec.z = abs(z)
+    Vec.x = abs(Vec.x)
+    Vec.y = abs(Vec.y)
+    Vec.z = abs(Vec.z)
     if Vec.x >= Vec.y:
         if Vec.y >= Vec.z:
             # Vec.x >= Vec.y >= Vec.z

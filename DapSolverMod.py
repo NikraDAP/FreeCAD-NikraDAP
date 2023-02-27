@@ -25,7 +25,7 @@
 # *                   Cecil Churms <churms@gmail.com>                            *
 # *             Lukas du Plessis (UP) <lukas.duplessis@up.ac.za>                 *
 # *                                                                              *
-# *                 This file a sizeable expansion of the:                       *
+# *               This file is a sizeable expansion of the:                      *
 # *                "Nikra-DAP-Rev-1" workbench for FreeCAD                       *
 # *        with increased functionality and inherent code documentation          *
 # *                  by means of expanded variable naming                        *

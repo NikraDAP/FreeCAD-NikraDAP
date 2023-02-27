@@ -1,3 +1,5 @@
 # Python PreCompiled Binaries
 __pycache__/
 *.pyc
+*~
+

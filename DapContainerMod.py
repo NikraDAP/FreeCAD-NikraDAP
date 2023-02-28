@@ -112,14 +112,14 @@ class CommandDapContainerC:
 
         # Return True if we have an Assembly4 FreeCAD model document which is loaded and Active
         if CAD.ActiveDocument is None:
-            CAD.Console.PrintErrorMessage("No active document is loaded into FreeCAD for Nikra-DAP to use")
+            CAD.Console.PrintErrorMessage("No active document is loaded into FreeCAD for NikraDAP to use")
             return False
 
         for obj in CAD.ActiveDocument.Objects:
             if hasattr(obj, "Type") and obj.Type == 'Assembly':
                 return True
 
-        CAD.Console.PrintErrorMessage("No Assembly4 Model found for Nikra-DAP to use")
+        CAD.Console.PrintErrorMessage("No Assembly4 Model found for NikraDAP to use")
         return False
     #  -------------------------------------------------------------------------
     def Activated(self):
@@ -162,7 +162,7 @@ class DapContainerC:
             DT.Mess("DapContainerC-initProperties")
 
         DT.addObjectProperty(containerObject, "activeContainer", False, "App::PropertyBool", "", "Flag as Active analysis object in document")
-        DT.addObjectProperty(containerObject, "movementPlaneNormal", CAD.Vector(0, 0, 1), "App::PropertyVector", "", "Defines the rotation plane in this Nikra-DAP run")
+        DT.addObjectProperty(containerObject, "movementPlaneNormal", CAD.Vector(0, 0, 1), "App::PropertyVector", "", "Defines the rotation plane in this NikraDAP run")
         DT.addObjectProperty(containerObject, "groundBodyName", "", "App::PropertyString", "", "The name of the ground body")
         DT.addObjectProperty(containerObject, "groundBodyLabel", "", "App::PropertyString", "", "The label of the ground body")
         DT.addObjectProperty(containerObject, "gravityVector", CAD.Vector(0.0, 0.0, 0.0), "App::PropertyVector", "", "Gravitational acceleration Components")

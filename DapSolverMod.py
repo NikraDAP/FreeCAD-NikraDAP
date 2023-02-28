@@ -176,8 +176,7 @@ class DapSolverC:
 
         DT.addObjectProperty(solverObject, "FileName", "", "App::PropertyString", "", "FileName to save data under")
         DT.addObjectProperty(solverObject, "Directory", "", "App::PropertyString", "", "Directory to save data")
-        DT.addObjectProperty(solverObject, "StartTime", 0.0, "App::PropertyFloat", "", "Start Time")
-        DT.addObjectProperty(solverObject, "EndTime", 10.0, "App::PropertyFloat", "", "End Time")
+        DT.addObjectProperty(solverObject, "TimeLength", 10.0, "App::PropertyFloat", "", "Length of the Analysis")
         DT.addObjectProperty(solverObject, "DeltaTime", 0.01, "App::PropertyFloat", "", "Length of time steps")
         DT.addObjectProperty(solverObject, "DapResultsValid", False, "App::PropertyBool", "", "")
         DT.addObjectProperty(solverObject, "BodyNames", [], "App::PropertyStringList", "", "")
@@ -356,8 +355,7 @@ class TaskPanelDapSolverC:
         self.form.browseFileDirectory.clicked.connect(self.getFolderDirectory)
 
         # Set the time in the form
-        self.form.startTime.setValue(self.solverTaskObject.StartTime)
-        self.form.endTime.setValue(self.solverTaskObject.EndTime)
+        self.form.endTime.setValue(self.solverTaskObject.TimeLength)
         self.form.reportingTime.setValue(self.solverTaskObject.DeltaTime)
         # Set the file name and directory
         self.form.outputDirectory.setText(self.Directory)
@@ -401,24 +399,8 @@ class TaskPanelDapSolverC:
         if Debug:
             DT.Mess("TaskPanelDapSolverC-storeTimeValues")
 
-        self.solverTaskObject.StartTime = self.form.startTime.value()
-        self.solverTaskObject.EndTime = self.form.endTime.value()
+        self.solverTaskObject.TimeLength = self.form.endTime.value()
         self.solverTaskObject.DeltaTime = self.form.reportingTime.value()
-    #  -------------------------------------------------------------------------
-    def checkValidityOfTime(self):
-        """Reject an incorrect time setting"""
-
-        if Debug:
-            DT.Mess("TaskPanelDapSolverC-checkValidityOfTime")
-
-        if self.solverTaskObject.StartTime > self.solverTaskObject.EndTime:
-            CAD.Console.PrintError("Start time is greater than end time\n")
-            return False
-        if self.solverTaskObject.DeltaTime > (self.solverTaskObject.EndTime - self.solverTaskObject.StartTime):
-            CAD.Console.PrintError("Reporting time period is greater than the entire time\n")
-            return False
-
-        return True
     #  -------------------------------------------------------------------------
     def outputDataCheckboxChanged(self):
         if self.form.outputData.isChecked():
@@ -458,16 +440,13 @@ class TaskPanelDapSolverC:
             self.solverTaskObject.FileName = "-"
 
         self.storeTimeValues()
-        if self.checkValidityOfTime() is True:
-
-            # Instantiate the DapMainC class and run the solver
-            self.DapMainC_Instance = DapMainMod.DapMainC(self.solverTaskObject.StartTime,
-                                                         self.solverTaskObject.EndTime,
-                                                         self.solverTaskObject.DeltaTime,
-                                                         self.Accuracy,
-                                                         self.form.correctInitial.isChecked())
-            if self.DapMainC_Instance.initialised is True:
-                self.DapMainC_Instance.MainSolve()
+        # Instantiate the DapMainC class and run the solver
+        self.DapMainC_Instance = DapMainMod.DapMainC(self.solverTaskObject.TimeLength,
+                                                     self.solverTaskObject.DeltaTime,
+                                                     self.Accuracy,
+                                                     self.form.correctInitial.isChecked())
+        if self.DapMainC_Instance.initialised is True:
+            self.DapMainC_Instance.MainSolve()
 
         # Return the solve button to green with 'Solve' on it
         self.form.solveButton.setText("Solve")

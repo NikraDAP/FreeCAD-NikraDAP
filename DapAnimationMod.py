@@ -267,7 +267,7 @@ class TaskPanelDapAnimateC:
 
         # Set up the values displayed on the dialog
         self.form.horizontalSlider.setRange(0, self.nTimeSteps - 1)
-        self.form.timeStepLabel.setText("{0:5.3f}s of {1:5.3f}s".format(self.solverObj.StartTime, self.solverObj.EndTime))
+        self.form.timeStepLabel.setText("0.000s of {0:5.3f}s".format(self.solverObj.TimeLength))
 
     #  -------------------------------------------------------------------------
     def reject(self):
@@ -332,7 +332,7 @@ class TaskPanelDapAnimateC:
         self.form.timeStepLabel.setText(
             "{0:5.3f}s of {1:5.3f}s".format(
                 tick * self.solverObj.DeltaTime,
-                self.solverObj.EndTime
+                self.solverObj.TimeLength
             )
         )
 

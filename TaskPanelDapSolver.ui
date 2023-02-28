@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>225</width>
-    <height>380</height>
+    <height>355</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>225</width>
-    <height>380</height>
+    <height>355</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>225</width>
-    <height>380</height>
+    <height>355</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>6</x>
-     <y>325</y>
+     <y>287</y>
      <width>131</width>
      <height>18</height>
     </rect>
@@ -42,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>6</x>
-     <y>345</y>
+     <y>320</y>
      <width>211</width>
      <height>32</height>
     </rect>
@@ -55,7 +55,7 @@
    <property name="geometry">
     <rect>
      <x>134</x>
-     <y>310</y>
+     <y>280</y>
      <width>84</width>
      <height>34</height>
     </rect>
@@ -76,7 +76,7 @@
      <x>6</x>
      <y>10</y>
      <width>211</width>
-     <height>148</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -85,75 +85,89 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <layout class="QGridLayout" name="gridLayout_3">
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>End time:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Time Step:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="startTime">
-      <property name="decimals">
-       <number>3</number>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Start time:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="endTime">
-      <property name="decimals">
-       <number>3</number>
-      </property>
-      <property name="maximum">
-       <double>10000.000000000000000</double>
-      </property>
-      <property name="value">
-       <double>0.500000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="reportingTime">
-      <property name="decimals">
-       <number>5</number>
-      </property>
-      <property name="stepType">
-       <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
-      </property>
-      <property name="value">
-       <double>0.010000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Calculation Time:  (s)</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>8</x>
+      <y>34</y>
+      <width>91</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Time Length:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>8</x>
+      <y>76</y>
+      <width>64</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Time Step:</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="endTime">
+    <property name="geometry">
+     <rect>
+      <x>103</x>
+      <y>30</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="decimals">
+     <number>3</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="reportingTime">
+    <property name="geometry">
+     <rect>
+      <x>103</x>
+      <y>70</y>
+      <width>93</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="decimals">
+     <number>5</number>
+    </property>
+    <property name="stepType">
+     <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+    </property>
+    <property name="value">
+     <double>0.010000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>8</y>
+      <width>191</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Calculation Time:  (s)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="solveButton">
    <property name="enabled">
@@ -162,7 +176,7 @@
    <property name="geometry">
     <rect>
      <x>7</x>
-     <y>200</y>
+     <y>160</y>
      <width>84</width>
      <height>34</height>
     </rect>
@@ -224,7 +238,7 @@
    <property name="geometry">
     <rect>
      <x>6</x>
-     <y>173</y>
+     <y>140</y>
      <width>211</width>
      <height>20</height>
     </rect>
@@ -249,7 +263,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>158</y>
+     <y>120</y>
      <width>91</width>
      <height>20</height>
     </rect>
@@ -262,7 +276,7 @@
    <property name="geometry">
     <rect>
      <x>106</x>
-     <y>200</y>
+     <y>163</y>
      <width>21</width>
      <height>31</height>
     </rect>
@@ -275,7 +289,7 @@
    <property name="geometry">
     <rect>
      <x>124</x>
-     <y>196</y>
+     <y>160</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -288,7 +302,7 @@
    <property name="geometry">
     <rect>
      <x>6</x>
-     <y>278</y>
+     <y>240</y>
      <width>211</width>
      <height>32</height>
     </rect>
@@ -301,7 +315,7 @@
    <property name="geometry">
     <rect>
      <x>6</x>
-     <y>260</y>
+     <y>220</y>
      <width>91</width>
      <height>18</height>
     </rect>
@@ -314,7 +328,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>240</y>
+     <y>200</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -327,7 +341,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>240</y>
+     <y>200</y>
      <width>121</width>
      <height>20</height>
     </rect>

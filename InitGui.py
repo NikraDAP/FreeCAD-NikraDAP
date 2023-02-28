@@ -72,7 +72,7 @@ Debug = False
 # 3. Couples the graphical interface of FreeCAD with the functions of the workbench
 # =============================================================================
 class DapWorkbenchC(Workbench):
-    """This class encompasses the whole Nikra-DAP workbench"""
+    """This class encompasses the whole NikraDAP workbench"""
     if Debug:
         FreeCAD.Console.PrintMessage("DapWorkbenchC-CLASS\n")
     #  -------------------------------------------------------------------------
@@ -85,14 +85,14 @@ class DapWorkbenchC(Workbench):
         import os
         import DapToolsMod as DT
 
-        # Set up the text for the DAP workbench option, the Nikra-DAP icon, and the tooltip
+        # Set up the text for the DAP workbench option, the NikraDAP icon, and the tooltip
         self.__class__.Icon = os.path.join(DT.getDapModulePath(), "icons", "Icon1n.png")
-        self.__class__.MenuText = "Nikra-DAP"
+        self.__class__.MenuText = "NikraDAP"
         self.__class__.ToolTip = "Planar multibody dynamics workbench based on Prof. Nikravesh's DAP solver"
     #  -------------------------------------------------------------------------
     def Initialize(self):
         """Called on the first selection of the DapWorkbench
-        and couples the main Nikra-DAP functions to the FreeCAD interface"""
+        and couples the main NikraDAP functions to the FreeCAD interface"""
 
         if Debug:
             FreeCAD.Console.PrintMessage("DapWorkbenchC-Initialize\n")
@@ -118,10 +118,10 @@ class DapWorkbenchC(Workbench):
         # FreeCADGui.addCommand("DapPlotAlias", CommandDapPlotC())
 
         # Create a toolbar with the DAP commands (icons)
-        self.appendToolbar("Nikra-DAP Commands", self.MakeCommandList())
+        self.appendToolbar("NikraDAP Commands", self.MakeCommandList())
 
         # Create a drop-down menu item for the menu bar
-        self.appendMenu("Nikra-DAP", self.MakeCommandList())
+        self.appendMenu("NikraDAP", self.MakeCommandList())
     #  -------------------------------------------------------------------------
     def ContextMenu(self, recipient):
         """This is executed whenever the user right-clicks on screen
@@ -132,7 +132,7 @@ class DapWorkbenchC(Workbench):
             FreeCAD.Console.PrintMessage("DapWorkbenchC-ContextMenu\n")
 
         # Append the DAP commands to the existing context menu
-        self.appendContextMenu("Nikra-DAP Commands", self.MakeCommandList())
+        self.appendContextMenu("NikraDAP Commands", self.MakeCommandList())
     #  -------------------------------------------------------------------------
     def MakeCommandList(self):
         """Define a list of our aliases for all the DAP main functions"""
@@ -155,7 +155,7 @@ class DapWorkbenchC(Workbench):
         ]
     #  -------------------------------------------------------------------------
     def Activated(self):
-        """Called when the Nikra-DAP workbench is run"""
+        """Called when the NikraDAP workbench is run"""
 
         if Debug:
             FreeCAD.Console.PrintMessage("DapWorkbenchC-Activated\n")

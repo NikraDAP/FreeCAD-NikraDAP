@@ -77,11 +77,10 @@ Debug = False
 class DapMainC:
     """Instantiated when the 'solve' button is clicked in the task panel"""
     #  -------------------------------------------------------------------------
-    def __init__(self, simStart, simEnd, simDelta, Accuracy, correctInitial):
+    def __init__(self, simEnd, simDelta, Accuracy, correctInitial):
         if Debug:
             DT.Mess("DapMainC-__init__")
         # Save the time steps passed via the __init__ function
-        self.simStart = simStart
         self.simEnd = simEnd
         self.simDelta = simDelta
         self.correctInitial = correctInitial
@@ -555,7 +554,7 @@ class DapMainC:
             DT.Mess("uArray:")
             DT.Np1D(True, uArray)
         # Set up the list of time intervals over which to integrate
-        self.Tspan = np.arange(self.simStart, self.simEnd, self.simDelta)
+        self.Tspan = np.arange(0.0, self.simEnd, self.simDelta)
 
         # ###################################################################################
         # Matrix Integration Function
@@ -596,7 +595,7 @@ class DapMainC:
 
         # Solve the equations: <analysis function> (<start time>, <end time>) <pos & vel array> <times at which to evaluate>
         solution = solve_ivp(self.Analysis,
-                             (self.simStart, self.simEnd),
+                             (0.0, self.simEnd),
                              uArray,
                              t_eval=self.Tspan,
                              rtol=self.relativeTolerance,

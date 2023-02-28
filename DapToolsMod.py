@@ -355,7 +355,7 @@ def computeCoGAndMomentInertia(bodyObj):
     CoG) squared.   Both axes should be normal to the plane of movement and
     will hence be parallel if everything is OK.
     *************************************************************************
-    IMPORTANT:  FreeCAD and Nikra-DAP work internally with a mm-kg-s system
+    IMPORTANT:  FreeCAD and NikraDAP work internally with a mm-kg-s system
     *************************************************************************
     """
 

@@ -1,7 +1,7 @@
-# Nikra-DAP: A Multibody Planar Dynamics Workbench for FreeCAD
+# NikraDAP: A Multibody Planar Dynamics Workbench for FreeCAD
 # Version 2.0-alpha
 
-The FreeCAD Nikra-DAP WorkBench is a planar multibody dynamics workbench that is based on the DAP solver algorithm developed by P.E.&nbsp;Nikravesh (**PLANAR MULTIBODY DYNAMICS: Formulation, Programming with MATLAB, and Applications**, 2nd Edition, *P.E.&nbsp;Nikravesh*, CRC&nbsp;Press, 2018)<br>
+The FreeCAD NikraDAP WorkBench is a planar multibody dynamics workbench that is based on the DAP solver algorithm developed by P.E.&nbsp;Nikravesh (**PLANAR MULTIBODY DYNAMICS: Formulation, Programming with MATLAB, and Applications**, 2nd Edition, *P.E.&nbsp;Nikravesh*, CRC&nbsp;Press, 2018)<br>
 ![Example of DAP](./Documentation/Images/MultiPendulum.gif)<br><br>
 ## Sister Web Site
 FreeCAD-NikraDAP has a sister website: https://github.com/NikraDAP/NikraDAP-Videos<br>
@@ -21,9 +21,9 @@ https://github.com/NikraDAP/FreeCAD-NikraDAP<br>
 8. Rename the **FreeCAD-NikraDAP-main** directory to the name **FreeCAD-NikraDAP**<br>
 9. Move the **FreeCAD-NikraDAP** directory to your FreeCAD modules directory
 [ on Linux machines, this directory is  often at **~/.local/share/FreeCAD/Mod/** , on Windows machines, it is typicalled stored at **C:\\Users\\*username*\\AppData\\Local\\Programs\\FreeCAD X\\Mod\\** or  **C:\\Program Files\\FreeCAD X\\Mod\\** where X is your current version ]<br>
-10. Run FreeCAD, and if you have moved Nikra-DAP to the correct directory in the above step, the Nikra-DAP workbench will appear in your list of workbenches.<br>
+10. Run FreeCAD, and if you have moved NikraDAP to the correct directory in the above step, the NikraDAP workbench will appear in your list of workbenches.<br>
 11. If this has not already been done, install the *Assembly4* workbench on your system, using FreeCAD's Addon manager. [This is located underneath the **Tools** option in the menu bar at the top of the FreeCAD window] *(Assembly4 is a powerful FreeCAD workbench written by **Zoltan Hubert**)*<br>
-12. If you wish, you can also at this stage, fetch some of the Nikra-DAP tutorial videos at<br>
+12. If you wish, you can also at this stage, fetch some of the NikraDAP tutorial videos at<br>
 https://github.com/NikraDAP/NikraDAP-Videos<br><br>
 
 # Basic Structure of NikraDAP

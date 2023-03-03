@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>NikraDAP</name> <!-- What the Addon Manager displays to users -->
+  <description>Multibody Planar Dynamics Workbench based on a DAP solver algorithm developed by P.E. Nikravesh.</description>
+  <version>2.0-alpha</version> <!-- Semantic versioning (1.2.3-beta) or CalVer-based, (2022.01.07), don't omit or non-git installations won't see your updates -->
+  <date>2023-03-03</date> <!-- Date of the last update to the version number -->
+  <maintainer email="churms@gmail.com">PLACEHOLDER</maintainer>
+  <license file="LICENSE">GPL-3</license> <!-- Make sure you actually have this file in your Addon repo if the license requires it -->
+  <url type="repository" branch="main">https://github.com/NikraDAP/FreeCAD-NikraDAP</url> <!-- Don't forget to update the branch name here -->
+  <url type="readme">https://github.com/NikraDAP/FreeCAD-NikraDAP/blob/main/README.md</url> <!-- Link to the HTML-rendered README page -->
+  <icon>icons/Icon1n.png</icon> <!-- If you include your icon here, you don't have to submit it to the main FreeCAD repo -->
+
+  <content>
+    <workbench>
+      <classname>DapWorkbenchC</classname> <!-- Must match class name in InitGui.py -->
+      <subdirectory>./</subdirectory>
+
+      <depend type="addon">Assembly4</depend>
+
+      <tag>MBD</tag>
+      <tag>Solver</tag>
+      <tag>Assembly</tag>
+    </workbench>
+  </content>
+ 

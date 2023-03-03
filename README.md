@@ -7,10 +7,18 @@ The FreeCAD NikraDAP WorkBench is a planar multibody dynamics workbench that is 
 FreeCAD-NikraDAP has a sister website: https://github.com/NikraDAP/NikraDAP-Videos<br>
 on which you can find, and from which you can download, various tutorial videos<br><br>
 ## Installation
+### The easy way - using the Addon Manager
+1.  You should be connected to the internet.<br>
+2.  Select **Tools** from the FreeCAD menu line at the top of the page.<br>
+3.  Select **Addon Manager** at the bottom of the drop-down menu which appears.<br>
+4.  Select **NikraDAP** from the list of available Addons.  (They are arranged alphabetically.)<br>
+5.  The **NikraDAP** README appears - click on **Install**<br>
+6.  Sit back and relax.  [Thanks goes to @luzpaz for helping us to install this]<br>
 
-1.  Access the github site for this workbench [if you are reading this, you are possibly there already]:   
-https://github.com/NikraDAP/FreeCAD-NikraDAP<br>
-2.  Press the green **Code** button   
+### The more difficult way
+If for some or other reason, you are struggling with adding NikraDAP using the AddOn Manager, you can use this, much more tedious, approach:<br>
+1.  Access the github site for this workbench [if you are reading this, you are possibly there already]: https://github.com/NikraDAP/FreeCAD-NikraDAP<br><br>
+2.  Press the green **Code** button<br>
 ![Green Code](./Documentation/Images/GreenCode.png)<br>
 3.  Request the **Download ZIP** option   
 ![Download Zip](./Documentation/Images/DownloadZIP.png)<br>

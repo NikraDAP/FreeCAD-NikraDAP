@@ -63,7 +63,8 @@ import numpy as np
 Debug = False
 #  -------------------------------------------------------------------------
 # These are the string constants used in various places throughout the code
-# These options are limited until each has been more thoroughly tested
+# These options are included in the code,
+# but limited until each has been more thoroughly tested
 JOINT_TYPE = ["Rotation",
               #"Translation",
               #"Rotation-Rotation",
@@ -74,15 +75,16 @@ JOINT_TYPE = ["Rotation",
               #"Rigid",
               ]
 JOINT_TYPE_DICTIONARY = {"Rotation": 0,
-                         "Translation": 1,
-                         "Rotation-Rotation": 2,
-                         "Rotation-Translation": 3,
-                         "Driven-Rotation": 4,
-                         "Driven-Translation": 5,
-                         "Disc": 6,
-                         "Rigid": 7,
+                         #"Translation": 1,
+                         #"Rotation-Rotation": 2,
+                         #"Rotation-Translation": 3,
+                         #"Driven-Rotation": 4,
+                         #"Driven-Translation": 5,
+                         #"Disc": 6,
+                         #"Rigid": 7,
                          }
-# These options are limited until each has been more thoroughly tested
+# These options are included in the code,
+# but limited until each has been more thoroughly tested
 FORCE_TYPE = ["Gravity",
               #"Spring",
               #"Rotational Spring",
@@ -98,8 +100,8 @@ FORCE_TYPE = ["Gravity",
               ]
 FORCE_TYPE_HELPER_TEXT = [
     "Universal force of attraction between all matter",
-    "Linear Spring connecting two points with stiffness and undeformed length",
-    "Device that stores energy when twisted and exerts a torque in the opposite direction",
+    "A device that stores energy when compressed or extended and exerts a force in the opposite direction",
+    "A device that stores energy when twisted and exerts a torque in the opposite direction",
     "A device used to limit or retard linear vibration ",
     "Device used to limit movement and vibration caused by rotation",
     "A Device used to dampen vibration in only the one direction",

@@ -41,7 +41,7 @@ In order solve planar dynamic problems, a few basic units must be defined.  In b
 It is customary to call the most simple application which can be performed when approaching a new software package for the first time, a **Hello World** application.  [*eg.* when writing a program in **C**, the simplest program to write, is usually one which simply prints out **Hello World** - hence the name.]<br><br>
 Steps are listed below, to perform a simple NikraDAP **Hello World** analysis. Some steps might seem trivial, but should the user persist through each step, one at a time, he or she will be able to perform a full NikraDAP analysis on a simple mechanism, after which, much further learning is possible by experimenting with alternative bodies, settings or buttons.<br>
 
-1. Make sure you have installed both **NikraDAP** and ** *Assembly4* ** and that they are listed in your FreeCAD workbench list. *(Assembly4 is a powerful FreeCAD workbench written by **Zoltan Hubert**, which is available using the FreeCAD **Addon manager**)*.  Now select NikraDAP.<br>
+1. Make sure you have installed both **NikraDAP** and **Assembly4** and that they are listed in your FreeCAD workbench list. *(Assembly4 is a powerful FreeCAD workbench written by **Zoltan Hubert**, which is available using the FreeCAD **Addon manager**)*.  Now select NikraDAP.<br>
 ![Workbench List](./Documentation/Images/WorkbenchSelect.png)<br>
 2. Load the NikraDAPBeginnersTutorial2.FCStd *Assembly4* model into FreeCAD. It will be located in your FreeCAD-NikraDAP folder, typically at<br>
 **~/.local/share/FreeCAD/Mod/FreeCAD-NikraDAP/NikraDAP-Demo-Models/NikraDAPBeginnersTutorial2.FCStd**<br>
@@ -136,3 +136,11 @@ It is also part of the **Engineering X: Engineering Skills Where They are Most N
 - infrastructure which will<br>
 - remain safe and fit for purpose.<br>
 ![Sponsors](./Documentation/Images/Sponsors.png)<br><br>
+
+Dr Cecil L. Churms,<br>
+Johannesburg,<br>
+South Africa.<br><br>
+
+First written: 28th February 2023<br>
+Last updated: 3rd March 2023<br>
+

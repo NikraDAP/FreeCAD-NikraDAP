@@ -7,7 +7,7 @@ The FreeCAD NikraDAP WorkBench is a planar multibody dynamics workbench that is 
 FreeCAD-NikraDAP has a sister website: https://github.com/NikraDAP/NikraDAP-Videos<br>
 on which you can find, and from which you can download, various tutorial videos<br><br>
 ## Installation
-### The easy way - using the Addon Manager
+### Automatic Installation (Recommended)
 1.  You should be connected to the internet.<br>
 2.  Select **Tools** from the FreeCAD menu line at the top of the page.<br>
 3.  Select **Addon Manager** at the bottom of the drop-down menu which appears.<br>
@@ -15,7 +15,9 @@ on which you can find, and from which you can download, various tutorial videos<
 5.  The **NikraDAP** README appears - click on **Install**<br>
 6.  Sit back and relax.  [Thanks goes to @luzpaz for helping us to install this]<br>
 
-### The more difficult way
+<details>
+   <summary><h3>Manual Installation</h3></summary>
+   
 If for some or other reason, you are struggling with adding NikraDAP using the AddOn Manager, you can use this, much more tedious, approach:<br>
 1.  Access the github site for this workbench [if you are reading this, you are possibly there already]: https://github.com/NikraDAP/FreeCAD-NikraDAP<br><br>
 2.  Press the green **Code** button<br>
@@ -33,6 +35,7 @@ If for some or other reason, you are struggling with adding NikraDAP using the A
 11. If this has not already been done, install the *Assembly4* workbench on your system, using FreeCAD's Addon manager. [This is located underneath the **Tools** option in the menu bar at the top of the FreeCAD window] *(Assembly4 is a powerful FreeCAD workbench written by **Zoltan Hubert**)*<br>
 12. If you wish, you can also at this stage, fetch some of the NikraDAP tutorial videos at<br>
 https://github.com/NikraDAP/NikraDAP-Videos<br><br>
+</details>
 
 # Basic Structure of NikraDAP
 
@@ -44,8 +47,9 @@ In order solve planar dynamic problems, a few basic units must be defined.  In b
 * **DapSolver:** Defines the length of time for NikraDAP to solve over, the time step, and the location of a spreadsheet output file.<br>
 * **DapAnimate**: Once the system has been solved, allows the viewing of an animation of the entire NikraDAP Mechanism.<br> 
 
+<details>
+   <summary><h1>NikraDAP - Hello World Application</h1></summary>
    
-# NikraDAP - Hello World Application
 It is customary to call the most simple application which can be performed when approaching a new software package for the first time, a **Hello World** application.  [*eg.* when writing a program in **C**, the simplest program to write, is usually one which simply prints out **Hello World** - hence the name.]<br><br>
 Steps are listed below, to perform a simple NikraDAP **Hello World** analysis. Some steps might seem trivial, but should the user persist through each step, one at a time, he or she will be able to perform a full NikraDAP analysis on a simple mechanism, after which, much further learning is possible by experimenting with alternative bodies, settings or buttons.<br>
 
@@ -118,8 +122,10 @@ or for Windows, at<br> **C:\\Program Files\\FreeCAD X\\Mod\\FreeCAD-NikraDAP\\Ni
 36. If requested, the **.csv** spreadsheet file will be found in the directory you have specified.  This file may be easily imported into a range of modern spreadsheet programs (*eg.* Microsoft **Excel** and LibreOffice **Calc**).  Using the powerful mathematical tools and graphical plotting utilities available, the detailed data supplied in the spreadsheet can be further analysed or visualised.<br><br>
 ## Congratulations, your first NikraDAP analysis is complete.<br><br>
 ![Pendulum Animation](./Documentation/Images/READMEPendulum.gif)<br><br>
+</details>
 
-
+## License<br><br>
+The license documentation associated with the FreeCAD-NikraDAP workbench is availabe [here](./LICENSE)<br><br>
 
 
  
@@ -150,5 +156,5 @@ Johannesburg,<br>
 South Africa.<br><br>
 
 First written: 28th February 2023<br>
-Last updated: 3rd March 2023<br>
+Last updated: 14th March 2023<br>
 
